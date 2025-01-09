@@ -1,0 +1,6 @@
+xdg-settings: default-url-scheme-handler not implemented for xfce
+21:33:57.881 › [electron client protocol] FAILED to set default protocol 'insomnia://'
+Debugger listening on ws://127.0.0.1:38755/2060e0c9-6fc9-4e62-9a5a-94e63c5833a6
+For help, see: https://nodejs.org/en/docs/inspector
+(node:189042) [DEP0170] DeprecationWarning: The URL http://localhost:3000api/auth/register is invalid. Future versions of Node.js will throw an error.
+(Use `exe --trace-deprecation ...` to show where the warning was created)
