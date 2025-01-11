@@ -1,24 +1,22 @@
 import React, { useState } from 'react'
 import useForm from '../Hooks/useForm'
 import { Link, useNavigate } from 'react-router-dom'
+import Form from '../Components/Form'
 
 export default function RegisterPage() {
 	const [isOk, setIsOk] = useState(false)
 	const [message, setMessage] = useState('')
-
-	const navigate = useNavigate()
-	const { formState, handleChange } = useForm({
+	const initial_state_form = {
 		name: '',
 		email: '',
 		password: ''
-	})
+	  }
+	const navigate = useNavigate()
+	// const { formState, handleChange } = useForm(initial_state_form)
 
 	// VERIFICATION BACKEND
-	const handleRegister = async (event) => {
-		// collect the form data
-		event.preventDefault()
-
-		// send the form data to the backend
+	const handleRegister = async (formState) => {
+		
 		try {
 			// Send the form data to the backend
 			const responseHTTP = await fetch('http://localhost:3000/api/auth/register', {
@@ -49,54 +47,58 @@ export default function RegisterPage() {
 		}
             
 	}
-	console.log(formState)
+
+	const form_fields = [
+		{
+		  label_text: "Enter your email to restore password",
+		  field_component: 'input',
+		  submit_text: "Login",
+	
+		  field_container_props: {
+			className: 'form'
+		  },
+		  field_input_props: {
+			className: 'form__input'
+		  },
+		  field_data_props: [
+			{
+				type: "text",
+				name: "name",
+				id: "name",
+				placeholder: "What's your name?",
+			  },
+			{
+			  type: "email",
+			  name: "email",
+			  id: "email",
+			  placeholder: "What's your email?",
+			},
+			{
+			  type: "password",
+			  name: "password",
+			  id: "password",
+			  placeholder: "Choose your password",
+			//   value: formState.password,
+			  // onChange: handlechange
+			}
+		  ]
+		}
+	  ]
 
 	return (
 		<div>
-			<h1>RegisterPage</h1>
-			<form onSubmit={handleRegister}>
-				<div>
-					<label>Username: </label>
-					<input
-						type="text"
-						name='name'
-						id='name'
-						placeholder="What's your name?"
-						value={formState.name}
-						onChange={handleChange}
-
-					/>
-				</div>
-				<div>
-					<label>Email: </label>
-					<input
-						type="text"
-						name='email'
-						id='email'
-						placeholder="What's your email?"
-						value={formState.email}
-						onChange={handleChange}
-
-					/>
-				</div>
-				<div>
-					<label>Password: </label>
-					<input
-						type="password"
-						name='password'
-						id='password'
-						placeholder="What's your password?"
-						onChange={handleChange}
-						value={formState.password}
-
-					/>
-				</div>
+			<h1>Register</h1>
+			<Form 
+                form_fields={form_fields} 
+                action={handleRegister} 
+                initial_state_form={initial_state_form} 
+                >
+               
+           </Form>
+				<p>Already have an account? <Link to="/login">Login</Link></p>
 				<p id="message" style={{ color: isOk ? 'green' : 'red' }}>
 					{message}
 				</p>
-				<button type='submit'>Register</button>
-				<p>Already have an account? <Link to="/login">Login</Link></p>
-			</form>
 		</div>
 	)
 }

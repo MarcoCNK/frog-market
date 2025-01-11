@@ -4,6 +4,7 @@ import authRouter from './routes/auth.route.js'
 import mongoDB from './config/db.config.js'
 // import path from 'path'
 import cors from 'cors'
+import productRouter from './routes/product.route.js'
 
 const port = 3000
 const app = express()
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use('/api/status', statusRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/products', productRouter)
 
 // app.use(express.static(path.join(__dirname, 'public')));
 

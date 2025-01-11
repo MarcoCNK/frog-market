@@ -6,7 +6,7 @@ dotenv.config()
 
 process.env.EMAIL_PASSWORD
 
-console.log(process.env.EMAIL_USER)
+console.log(process.env.JWT_SECRET)
 
 const ENVIRONMENT = {
     EMAIL_PASSWORD: process.env.EMAIL_PASSWORD || '',
