@@ -1,11 +1,12 @@
 import Joi from 'joi'
 import ResponseBuilder from '../helpers/response.builder.js'
-import User from '../models/user.models.js'
 // import nodemailer from 'nodemailer'
 import transportEmail from '../helpers/email.transporter.helpers.js'
 import ENVIRONMENT from '../config/environment.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import UserRepository from '../repositories/user.repository.js'
+
 
 export const registerController = async (req, res) => {
     try {
@@ -29,15 +30,15 @@ export const registerController = async (req, res) => {
         }
         const hashedPassword = await bcrypt.hash(value.password, 10)
 
-        const user = new User({
+        const user = {
             name: value.name,
             email: value.email,
             password: hashedPassword,
             emailVerified: false,
             verificationToken: ''
-        })
-        await user.save()
+        }
 
+        await UserRepository.register(user)
         // VERIFY TOKEN
         const validationToken = jwt.sign({
             email: value.email,
@@ -116,10 +117,10 @@ export const verifyEmailController = async (req, res) => {
         const { validation_token } = req.params
         const payload = jwt.verify(validation_token, process.env.JWT_SECRET)
         console.log("Token tecibido: ", payload)
-        const user_to_verify = await User.findOne({ email: payload.email })
+        const user_to_verify = await UserRepository.getByMail({ email: payload.email })
         console.log(user_to_verify)
         user_to_verify.emailVerified = true
-        await user_to_verify.save()
+        await UserRepository.register(user_to_verify)
 
         res.redirect('http://localhost:5173/login')
     } catch (err) {
@@ -139,7 +140,8 @@ export const loginController = async (req, res) => {
         const { error, value } = loginSchema.validate(req.body)
 
         // check if its registerred
-        const user = await User.findOne({ email: value.email })
+        const user = await UserRepository.getByMail({ email: value.email })
+
         if (!user) {
             const response = new ResponseBuilder()
                 .setOk(false)
@@ -149,18 +151,19 @@ export const loginController = async (req, res) => {
                     detail: "You are not registered"
                 })
                 .build()
+                await console.log(typeof user)
             return res.json({ response })
         }
+
 
         // check if the password is correct
         const isValidPassword = await bcrypt.compare(value.password, user.password)
 
         // Count retries
         
-        let acc = 0
         if (!isValidPassword) {
             const retries_token = jwt.sign({
-                try: acc++
+                try: req.body.try++
             },
             process.env.JWT_SECRET,
             {
@@ -195,7 +198,8 @@ export const loginController = async (req, res) => {
         const access_token = jwt.sign({
             user_id: user._id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            role: user.role
         },
             process.env.JWT_SECRET,
             {
@@ -232,7 +236,7 @@ export const forgotPasswordController = async (req, res) => {
     try{
         const { email } = req.body
 
-        const user = await User.findOne({ email: email })
+        const user = await UserRepository.getByMail({ email: email })
         if (!user) {
             const response = new ResponseBuilder()
                 .setOk(false)
@@ -326,7 +330,7 @@ export const recoveryPasswordController = async (req, res) => {
             return res.json({ response })
         }
         // get the user
-        const user_to_verify = await User.findOne({ email: virifiedToken.email })
+        const user_to_verify = await UserRepository.getByMail({ email: virifiedToken.email })
         console.log("get the user", user_to_verify)
         
         // hash the password

@@ -2,25 +2,25 @@ import React, { useState } from 'react'
 import useForm from '../Hooks/useForm';
 import { Link, useNavigate } from 'react-router-dom';
 import Form from '../Components/Form';
-import { jwtDecode } from 'jwt-decode';
-import { jwtEncode } from 'jwt-encode'
+import { jwtDecode } from 'jwt-decode'
 
 export default function LoginPage() {
 	const [isOk, setIsOk] = useState(false);
 	const [message, setMessage] = useState('')
+	const [retry, setRetry] = useState(0)
+
 	const navigate = useNavigate()
 
 	const initial_state_form = {
 		email: '',
 		password: ''
 	}
-	let retries = 0
 
 	const actionLogin = async (formState) => {
 		console.log("hola")
 		// send the form data to the backend
 		try {
-
+			formState.try = retry
 			// Send the form data to the backend
 			const responseHTTP = await fetch('http://localhost:3000/api/auth/login', {
 				method: 'POST',
@@ -39,14 +39,23 @@ export default function LoginPage() {
 
 			console.log("Access token: ", data.response.payload.detail)
 			
+			setRetry((prevRetry) => {
+                console.log(`Retry count increased: ${prevRetry + 1}`);
+                return prevRetry + 1;
+            });
+			// let tokenRetry = data.response.payload.retry
+			// const tokenObject = jwtDecode(tokenRetry)
+			// tokenObject.try
+			// console.log("THe number is ", tokenObject.try)
 			setMessage(messageFromData)
 
 			if (messageFromData == "Logged successfully!") {
 				console.log("logged successfully")
+				console.log("Access token: ", data.response.payload.detail)
 				sessionStorage.setItem('token', data.response.payload.detail)
-				// setTimeout(() => {
-				// 	navigate('/home');
-				// }, 2000);
+				setTimeout(() => {
+					navigate('/home');
+				}, 2000);
 			}
 		} catch (error) {
 			console.log(error)

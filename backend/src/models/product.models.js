@@ -1,13 +1,13 @@
 import mongoose from 'mongoose'
 
 // SCHEMA, TYPED
-const userSchema = new mongoose.Schema({
+const productSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true
     },
     price: {
-        type: number,
+        type: Number,
         required: true
     },
     stock:  {
@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
         type: String,
     },
     seller_id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String, // mongoose.Schema.Types.ObjectId
         default: Date.now
     },
     active: {
@@ -33,6 +33,6 @@ const userSchema = new mongoose.Schema({
 })
 
 // CLASS, it utilize our shcema
-const Product = mongoose.model('User', userSchema)
+const Product = mongoose.model('Product', productSchema)
 
 export default Product

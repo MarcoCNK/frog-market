@@ -1,16 +1,16 @@
-import mongoDB from 'mongoose'
+import mongoose from 'mongoose';
 
-const MONGO_URL = 'mongodb://localhost:27017/users'
+const MONGO_URL = 'mongodb://localhost:27017/test';
 
-mongoDB.connect(MONGO_URL, {
+mongoose.connect(MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-.then (() => {
-    console.log('Database connected')
+.then(() => {
+    console.log('Database connected');
 })
 .catch((err) => {
-    console.log("EL ERROR INDESCRIPTIBLE: ",err)
-})
+    console.error('Database connection error:', err);
+});
 
-export default mongoDB  
+export default mongoose;

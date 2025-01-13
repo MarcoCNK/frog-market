@@ -5,6 +5,6 @@ import authMiddleware from '../middlewares/auth.middleware.js'
 
 const statusRouter = express.Router()
 
-statusRouter.get('/ping', authMiddleware, testMiddleware, postPingController)
+statusRouter.get('/ping', testMiddleware, postPingController)
 
 export default statusRouter

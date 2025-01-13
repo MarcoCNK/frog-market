@@ -1,4 +1,4 @@
-import Product from "../models/product.models"
+import Product from "../models/product.models.js"
 
 class ProductRepository {
     // STATIC GUARDA EL METODO EN LA CLASE
@@ -8,19 +8,19 @@ class ProductRepository {
     }
 
     static async updateProduct (product_id, update_data) {
-        return Product.findByIdAndUpdate(product_id, update_data)
+        return Product.findOneAndUpdate(product_id, update_data)
     } 
 
     static async getAllProducts (){
         return Product.find({active: true})
     }
 
-    static async getAllProducts (product_id){
-        return Product.findById(product_id)
+    static async getProductById (product_id){
+        return Product.findOne(product_id)
     }
 
-    static async deleteProduct (product_id){
-        return Product.findByIdAndUpdate(product_id, {active: false}, {new: true})
+    static async deleteProduct (filter){
+        return Product.findOneAndUpdate(filter, { active: false }, { new: true });
     }
 }
 
