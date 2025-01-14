@@ -45,11 +45,7 @@ export default function LoginPage() {
 			setRetry((prevRetry) => {
                 console.log(`Retry count increased: ${prevRetry + 1}`);
                 return prevRetry + 1;
-            });
-			// let tokenRetry = data.response.payload.retry
-			// const tokenObject = jwtDecode(tokenRetry)
-			// tokenObject.try
-			// console.log("THe number is ", tokenObject.try)
+            })
 			setMessage(messageFromData)
 
 			if (messageFromData == "Logged successfully!") {
