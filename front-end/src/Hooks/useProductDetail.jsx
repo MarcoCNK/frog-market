@@ -9,7 +9,7 @@ const useProductDetail = (product_id) => {
 
 
     const getProductDetail = async (product_id) => { 
-        const response = await fetch(`http://localhost:3000/api/products/${product_id}`, { 
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products/${product_id}`, { 
             method: 'GET',
             headers: getAuthHeaders()
         })

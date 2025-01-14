@@ -20,7 +20,7 @@ const RecoveryPasswordPage = () => {
         console.log("holas")
         try {
 
-            const responseHTTP = await fetch(`http://localhost:3000/api/auth/recovery-password/${reset_token}`, {
+            const responseHTTP = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/recovery-password/${reset_token}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

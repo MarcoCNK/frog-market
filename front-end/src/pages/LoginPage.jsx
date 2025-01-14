@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import useForm from '../Hooks/useForm';
 import { Link, useNavigate } from 'react-router-dom';
 import Form from '../Components/Form';
 import { jwtDecode } from 'jwt-decode'
+import { AuthContext } from '../Context/AuthContenxt';
 
 export default function LoginPage() {
 	const [isOk, setIsOk] = useState(false);
@@ -16,13 +17,15 @@ export default function LoginPage() {
 		password: ''
 	}
 
+	const {login } = useContext(AuthContext)
+
 	const actionLogin = async (formState) => {
 		console.log("hola")
 		// send the form data to the backend
 		try {
 			formState.try = retry
 			// Send the form data to the backend
-			const responseHTTP = await fetch('http://localhost:3000/api/auth/login', {
+			const responseHTTP = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -52,9 +55,8 @@ export default function LoginPage() {
 			if (messageFromData == "Logged successfully!") {
 				console.log("logged successfully")
 				console.log("Access token: ", data.response.payload.detail)
-				sessionStorage.setItem('token', data.response.payload.detail)
 				setTimeout(() => {
-					navigate('/home');
+					login(data.response.payload.detail)
 				}, 2000);
 			}
 		} catch (error) {

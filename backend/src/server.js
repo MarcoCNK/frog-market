@@ -6,7 +6,8 @@ import mongoose from './config/db.config.js'
 import cors from 'cors'
 import productRouter from './routes/product.route.js'
 import errorHandlerMiddleware from './middlewares/error.middleware.js'
-
+import pool from './config/dbMysql.config.js'
+import ProductRepository from './repositories/product.repository.js'
 
 const port = 3000
 const app = express()
@@ -37,4 +38,18 @@ app.post('/', (req, res) => {
 
 app.listen(port, () => {
     console.log(`Example app listening on local host  http://localhost:${port}`)
+})
+
+ProductRepository.createProduct({
+    title: "Test",
+    price: 100,
+    stock: 10,
+    description: "Test",
+    category: "Test",
+    seller_id: 1,
+    image_base64: "Test"   
+})
+
+ProductRepository.getAllProducts({
+
 })

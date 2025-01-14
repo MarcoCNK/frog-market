@@ -7,7 +7,7 @@ const useProducts = () => {
     const [productErrorState, setProductErrorState] = useState(null)
 
     const getProducts = async () => { 
-        const response = await fetch('http://localhost:3000/api/products/', {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products/`, {
             method: 'GET',
             headers: getAuthHeaders()
         })

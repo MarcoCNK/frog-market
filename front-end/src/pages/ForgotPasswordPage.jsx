@@ -14,7 +14,7 @@ const ForgotPasswordPage = () => {
 
         try {
             console.log("Sendind request")
-            const responseHTTP = await fetch("http://localhost:3000/api/auth/forgot-password", {
+            const responseHTTP = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/forgot-password`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"

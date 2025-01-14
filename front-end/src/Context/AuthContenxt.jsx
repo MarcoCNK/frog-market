@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export const AuthContext = createContext()
 
@@ -12,10 +13,25 @@ export const AuthProvider = ({ children }) => {
         Boolean(sessionStorage.getItem('token')) && setIsLoged(true)
     }, [])
 
+    const navigate = useNavigate()
+    const login = (authToken) => { 
+        sessionStorage.setItem('token', authToken)
+        setIsLoged(true)
+        navigate('/login')
+
+    }
+
+    const logout = () => { 
+        sessionStorage.removeItem('token')
+        setIsLoged(false)
+        navigate('/login')
+    }
+
     return (
         <AuthContext.Provider value={
                 {
-                    isLoged
+                    isLoged,
+                    login
                 }
             }>
             {children}

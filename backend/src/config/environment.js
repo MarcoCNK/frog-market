@@ -8,10 +8,19 @@ process.env.EMAIL_PASSWORD
 
 console.log(process.env.JWT_SECRET)
 
+console.log(process.env.MYSQL_PASSWORD)
 const ENVIRONMENT = {
     EMAIL_PASSWORD: process.env.EMAIL_PASSWORD || '',
     EMAIL_USER: process.env.EMAIL_USER || '',
-    JWT_SECRET: process.env.JWT_SECRET
+    JWT_SECRET: process.env.JWT_SECRET,
+    MYSQL: {
+        HOST: process.env.MYSQL_HOST,
+        USER: process.env.MYSQL_USER,
+        PASSWORD: process.env.MYSQL_PASSWORD,
+        DATABASE: process.env.MYSQL_DATABASE 
+
+    }
+
 }
 
 export default ENVIRONMENT

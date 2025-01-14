@@ -22,7 +22,7 @@ const ProductCreatePage = () => {
 		// send the form data to the backend
 		try {
 			// Send the form data to the backend
-			const responseHTTP = await fetch('http://localhost:3000/api/products', {
+			const responseHTTP = await fetch(`${import.meta.env.VITE_API_URL}/api/products`, {
 				method: 'POST',
 				headers: getAuthHeaders(),
 				body: JSON.stringify(formState)

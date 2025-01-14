@@ -10,7 +10,7 @@ const useProductDelete = (product_id) => {
         let id_string = String(product_id)
         console.log("Type of product id", id_string)
 
-        const response = await fetch(`http://localhost:3000/api/products/${id_string}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products/${id_string}`, {
             method: 'DELETE',
             headers: getAuthHeaders()
         })

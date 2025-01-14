@@ -11,6 +11,28 @@ const useForm = (initialForm) => {
 		})
 	}
 
+	const handleChangeImage = (event, fieldName) => { 
+		const FILE_MB_LIMIT = 2
+		
+		const file = event.target.files[0]
+
+		const reader = new FileReader()
+
+		// if(file && file.size > FILE_MB_LIMIT * 1024 * 1024){
+		// 	setFormState((prevFormState) => {
+
+		reader.onloadend = () => {
+			const imageBase64 = reader.result
+			setFormState((prevFormState) => {
+				return {...prevFormState, fieldName: imageBase64}
+			})
+		}
+		if (file){
+
+			reader.readAsDataURL(file)
+		}
+	}
+
   return {
 	  formState,
 	  handleChange
