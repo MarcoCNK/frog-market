@@ -9,6 +9,7 @@ import UserRepository from '../repositories/user.repository.js'
 
 
 export const registerController = async (req, res) => {
+    console.log(req.body)
     try {
         // VALIDATIONS OF THE BODY
         const schema = Joi.object({
@@ -355,21 +356,12 @@ export const recoveryPasswordController = async (req, res) => {
     }
  }
 
-export const retryPasswordController  = async (req, res) => { 
-    const { retry } = req.body
 
-    const validationToken = jwt.sign({try: retry},
-        process.env.JWT_SECRET,
-        {
-            expiresIn: '1d'
-        })
-        const response = new ResponseBuilder()
-        .setOk(false)
-        .setStatus(400)
-        .setMessage(`Invalid creds`)
-        .setPayload({
-            detail: validationToken
-        })
-        .build()
-    return res.json({ response })
+ export const logoutController = async (req, res) => {
+    res.clearCookie('token');
+    res.status(200).json({ message: 'Logout successful' });
 }
+
+
+
+

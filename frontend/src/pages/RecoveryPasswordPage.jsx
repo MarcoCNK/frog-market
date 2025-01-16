@@ -64,6 +64,7 @@ const RecoveryPasswordPage = () => {
                 name: "password",
                 id: "password",
                 placeholder: "Choose your new password",
+                className: "mt-1 p-2 w-full border rounded-md border-gray-700 bg-gray-700 text-white focus:ring-blue-500 focus:border-blue-500"
                 // onChange: handlechange
             }]
         }

@@ -1,3 +1,4 @@
+import { jwtDecode } from 'jwt-decode'
 import { createContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -7,10 +8,13 @@ export const AuthContext = createContext()
 export const AuthProvider = ({ children }) => { 
     let name = 'hola'
 
-    const [isLoged, setIsLoged] = useState(Boolean(sessionStorage.getItem('token')))
+    const token_string = sessionStorage.getItem('token')
+
+    
+    const [isLoged, setIsLoged] = useState(Boolean(token_string))
 
     useEffect(() => {
-        Boolean(sessionStorage.getItem('token')) && setIsLoged(true)
+        Boolean(token_string) && setIsLoged(true)
     }, [])
 
     const navigate = useNavigate()
@@ -27,11 +31,21 @@ export const AuthProvider = ({ children }) => {
         navigate('/login')
     }
 
+    const [isAdmin, setIsAdmin] = useState(false)
+    const userObject = jwtDecode(token_string)
+    if (userObject.role === 'admin') {
+        useEffect(() => {
+            Boolean(token_string) && setIsAdmin(true)
+        }, [])
+        
+    }
     return (
         <AuthContext.Provider value={
                 {
                     isLoged,
-                    login
+                    login,
+                    logout,
+                    isAdmin
                 }
             }>
             {children}

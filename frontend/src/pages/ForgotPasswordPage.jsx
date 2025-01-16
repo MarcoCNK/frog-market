@@ -13,7 +13,6 @@ const ForgotPasswordPage = () => {
     const actionForgotPassword = async (formState) => {
 
         try {
-            console.log("Sendind request")
             const responseHTTP = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/forgot-password`, {
                 method: 'POST',
                 headers: {
@@ -34,6 +33,11 @@ const ForgotPasswordPage = () => {
 
     const form_fields = [
         {
+			linkDirection: [{
+				redirect: "/login",
+				text: "Login"
+				
+			}],
             label_text: "Enter your email to restore password",
             field_component: 'input',
             submit_text: "Send mail",
@@ -50,24 +54,21 @@ const ForgotPasswordPage = () => {
                 name: "email",
                 id: "email",
                 placeholder: "What's your email?",
+                className: "mt-1 p-2 w-full border rounded-md border-gray-700 bg-gray-700 text-white focus:ring-blue-500 focus:border-blue-500"
                 },
             ]
         }
     ]
 
     return (
-        <div>
-            <h1>Forgot Password</h1>
-            <p>When you restore the password you will receive an email</p>
             <Form 
                 form_fields={form_fields} 
                 action={actionForgotPassword} 
                 initial_state_form={initial_state_form} 
+				page_title="Forgot my pass"
                 >
                
-               <Link to="/login">Login</Link>
            </Form>
-        </div>
     )
 }
 

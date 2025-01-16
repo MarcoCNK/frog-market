@@ -6,8 +6,9 @@ import mongoose from './config/db.config.js'
 import cors from 'cors'
 import productRouter from './routes/product.route.js'
 import errorHandlerMiddleware from './middlewares/error.middleware.js'
-import pool from './config/dbMysql.config.js'
+// import pool from './config/dbMysql.config.js'
 import ProductRepository from './repositories/product.repository.js'
+import userRouter from './routes/users.route.js'
 
 const port = 3000
 const app = express()
@@ -20,6 +21,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api/status', statusRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/products', productRouter)
+app.use('/api/users', userRouter )
+
 
 // THE MIDDLEWARE OF ERROR AT LAST
 app.use(errorHandlerMiddleware)

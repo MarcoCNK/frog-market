@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import useForm from '../Hooks/useForm';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, redirect, useNavigate } from 'react-router-dom';
 import Form from '../Components/Form';
 import { jwtDecode } from 'jwt-decode'
 import { AuthContext } from '../Context/AuthContenxt';
@@ -17,13 +17,11 @@ export default function LoginPage() {
 		password: ''
 	}
 
-	const {login } = useContext(AuthContext)
+	const { login } = useContext(AuthContext)
 
 	const actionLogin = async (formState) => {
-		console.log("hola")
 		// send the form data to the backend
 		try {
-			formState.try = retry
 			// Send the form data to the backend
 			const responseHTTP = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
 				method: 'POST',
@@ -41,11 +39,7 @@ export default function LoginPage() {
 			setIsOk(data.response.ok)
 
 			console.log("Access token: ", data.response.payload.detail)
-			
-			setRetry((prevRetry) => {
-                console.log(`Retry count increased: ${prevRetry + 1}`);
-                return prevRetry + 1;
-            })
+
 			setMessage(messageFromData)
 
 			if (messageFromData == "Logged successfully!") {
@@ -54,10 +48,19 @@ export default function LoginPage() {
 				setTimeout(() => {
 					login(data.response.payload.detail)
 				}, 2000);
+				console.log("Is okey from the action",isOk)
+			return {messageFromData, isOk}
+
 			}
+			return {messageFromData, isOk}
+
 		} catch (error) {
 			console.log(error)
 			setMessage("An error occurred. Please try again later.");
+			return {messageFromData, isOk}
+
+
+
 		}
 
 	}
@@ -65,10 +68,24 @@ export default function LoginPage() {
 
 	const form_fields = [
 		{
-			label_text: "Enter your email to restore password",
+			linkDirection: [{
+				redirect: "/register",
+				text: "I don't have an account?"
+
+			},
+			{
+				redirect: "/forgot-password",
+				text: "Forgot your password?"
+			}],
+			label_text: "Please enter your email and password",
 			field_component: 'input',
 			submit_text: "Login",
-
+			input_classes: {
+				className: "block",
+				className: "text-sm",
+				className: "font-medium",
+				className: "text-gray-300"
+			},
 			field_container_props: {
 				className: 'form'
 			},
@@ -81,6 +98,7 @@ export default function LoginPage() {
 					name: "email",
 					id: "email",
 					placeholder: "What's your email?",
+					className: "mt-1 p-2 w-full border rounded-md border-gray-700 bg-gray-700 text-white focus:ring-blue-500 focus:border-blue-500"
 					// value: formState.email
 				},
 				{
@@ -88,30 +106,23 @@ export default function LoginPage() {
 					name: "password",
 					id: "password",
 					placeholder: "Choose your new password",
+					className: "mt-1 p-2 w-full border rounded-md border-gray-700 bg-gray-700 text-white focus:ring-blue-500 focus:border-blue-500"
 					// value: formState.password,
 					// onChange: handlechange
 				}
 			]
 		}
 	]
-
 	return (
-		<div>
-			<h1>LoginPage</h1>
 			<Form
 				form_fields={form_fields}
 				action={actionLogin}
 				initial_state_form={initial_state_form}
+				page_title="LoginPage"
 			>
-
 			</Form>
-			<Link to="/register">Are you already registered?</Link>
-			<br />
-			<Link to="/forgot-password">Forgot your password?</Link>
-			<p id="message" style={{ color: isOk ? 'green' : 'red' }}>
-				{message}
-			</p>
-		</div>
+
+
 	)
 }
 
