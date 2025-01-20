@@ -1,42 +1,34 @@
 import React from 'react'
 import { FaShoppingCart } from "react-icons/fa";
-import Layout from '../Components/Layout';
+import Navbar from '../Components/Navbar'
+import BillingForm from '../Components/BillingForm';
+import ItemList from '../Components/ItemList';
+import getAuthHeaders from '../utils/authHeeders';
 
 const CartPage = () => {
-    return (
-        <>
-        <NavBar></NavBar>
-        {/* <div className="min-h-screen bg-black text-white flex items-center justify-center"
-        style={{ backgroundImage: "url('/public/bogCartoon.webp')" }}>
-          {product_detail_loading_state ? (
-            <p className="text-lg text-center">Loading...</p>
-          ) : (
-            <div >
-              <h1 className="text-4xl font-bold mb-4 text-green-500">
-                Your products:
-              </h1>
-                <hr/>
-              <div>
-                <img 
-                  src={product_detail_state.image}
-                  alt={product_detail_state.title}
-                  />     
-                  <p className="text-2xl font-semibold text-green-500">
-                  ${product_detail_state.title}
-                </p>           
-                <p className="text-2xl font-semibold text-green-500">
-                  ${product_detail_state.price}
-                </p>
-                <hr/>
-              </div>
+
+  return (
+    <>
+        <Navbar />
+        <div
+            className="min-h-screen bg-black text-white flex flex-col justify-between gap-y-6 pt-16"
+            style={{ backgroundImage: "url('/public/bogCartoon.webp')" }}
+        >
+            {/* Row with ItemList and BillingForm */}
+            <div className="flex items-start gap-x-10 justify-center">
+                <ItemList />
+                <BillingForm />
+            </div>            
+            <div className="flex justify-center pb-10">
                 <button className="px-6 py-3 bg-green-500 text-black font-bold rounded-md hover:bg-green-600 transition duration-300">
-                  Buy Now
+                    Buy Now
                 </button>
+                
             </div>
-          )}
-        </div> */}
-        </>
-    )
+        </div>
+    </>
+);
+
 }
 
 export default CartPage

@@ -1,9 +1,10 @@
 import { Link, NavLink } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FaPhone, FaUser, FaShoppingCart } from 'react-icons/fa'
-import { useEffect,  useState } from "react"
+import { useContext, useEffect,  useState } from "react"
 import { IoIosLogOut, IoIosArrowDropdownCircle, IoIosArrowDropup } from "react-icons/io"
 import frogLogo from "/public/frogLogo.png"
+import { AuthContext } from "../Context/AuthContenxt"
 
 
 const DropdownIcon = ({ dropdownState }) => {
@@ -12,7 +13,8 @@ const DropdownIcon = ({ dropdownState }) => {
 
 
 
-export const NavBar = () => {
+export const NavBar = ({cartList}) => {
+    const {isLoged} = useContext(AuthContext)
 
     const [isVisible, setIsVisible] = useState(true)
     const [lastScrollPosition, setLastScrollPosition] = useState(0)
@@ -67,14 +69,19 @@ export const NavBar = () => {
                     </NavLink>
                 </div>
                 <ul className="flex space-x-6 items-center">
-                    {/* Carrito */}
+                    {
+                    isLoged &&
                     <NavLink to='/supercart' className='nav-link flex items-center space-x-2'>
-                        <FaShoppingCart />
+                        { cartList ? 
+                        <Badge badgeContent={listaCompras.length} color="secondary">
+                            <FaShoppingCart />
+                        </Badge> 
+                        : <FaShoppingCart />  
+                    }
                         <span>SuperCart</span>
-                        {/* <Badge badgeContent={listaCompras.length} color="secondary">
-                            <ShoppingCart color="action" />
-                        </Badge> */}
                     </NavLink>
+
+                    }
 
                     <li  >
                         <div className="container mx-auto flex justify-between items-center">
@@ -111,14 +118,6 @@ export const NavBar = () => {
                             <span>
                                 Login
 
-                            </span>
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/profile" className="block px-4 py-2 hover:bg-gray-100 hover:text-black">
-                            <span>
-
-                                Profile
                             </span>
                         </NavLink>
                     </li>

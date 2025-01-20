@@ -61,7 +61,10 @@ export default function RegisterPage() {
 				text: "Login"
 
 			}],
-			label_text: "Let's create your account!",
+			label_text: [{
+				text: "Register your account",
+				className: "block rounded text-sm font-medium text-gray-300"
+			  }],
 			field_component: 'input',
 			submit_text: "Register",
 
@@ -73,6 +76,7 @@ export default function RegisterPage() {
 			},
 			field_data_props: [
 				{
+					field_component: 'input',
 					type: "text",
 					name: "name",
 					id: "name",
@@ -80,6 +84,7 @@ export default function RegisterPage() {
 					className: "mt-1 p-2 w-full border rounded-md border-gray-700 bg-gray-700 text-white focus:ring-blue-500 focus:border-blue-500"
 				},
 				{
+					field_component: 'input',
 					type: "email",
 					name: "email",
 					id: "email",
@@ -87,6 +92,8 @@ export default function RegisterPage() {
 					className: "mt-1 p-2 w-full border rounded-md border-gray-700 bg-gray-700 text-white focus:ring-blue-500 focus:border-blue-500"
 				},
 				{
+					field_component: 'input',
+					
 					type: "password",
 					name: "password",
 					id: "password",
@@ -106,6 +113,7 @@ export default function RegisterPage() {
 			action={handleRegister}
 			initial_state_form={initial_state_form}
 			page_title="RegisterPage"
+			isBillingFrom=""
 		>
 
 		</Form>

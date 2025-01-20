@@ -44,10 +44,10 @@ export const registerController = async (req, res) => {
         const validationToken = jwt.sign({
             email: value.email,
         },
-            process.env.JWT_SECRET,
-            {
-                expiresIn: '1d'
-            })
+        process.env.JWT_SECRET,
+        {
+            expiresIn: '1d'
+        })
 
         const redirectURL = `http://localhost:${process.env.PORT}/api/auth/verify-email/` + validationToken
 
@@ -163,21 +163,12 @@ export const loginController = async (req, res) => {
         // Count retries
         
         if (!isValidPassword) {
-            const retries_token = jwt.sign({
-                try: req.body.try++
-            },
-            process.env.JWT_SECRET,
-            {
-                expiresIn: '1d'
-            })
-            console.log("Invalid creds")
             const response = new ResponseBuilder()
                 .setOk(false)
                 .setStatus(400)
                 .setMessage(`Invalid credentials`)
                 .setPayload({
                     detail: "Bad credentials",
-                    retry: retries_token
                 })
                 .build()
             return res.json({ response })
@@ -357,9 +348,13 @@ export const recoveryPasswordController = async (req, res) => {
  }
 
 
- export const logoutController = async (req, res) => {
-    res.clearCookie('token');
-    res.status(200).json({ message: 'Logout successful' });
+ export const logoutController = async (req, res, next) => {
+    try {
+        res.clearCookie('token');
+        return res.status(200).json({ message: 'Logout successful' });
+    } catch (error) {
+        return next(new AppError('An error occurred while logging out', 500));
+    }
 }
 
 

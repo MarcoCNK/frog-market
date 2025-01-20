@@ -1,18 +1,42 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import useProductDetail from '../Hooks/useProductDetail'
-import { Layout } from '../Components'
 import NavBar from '../Components/Navbar'
+import getAuthHeaders from '../utils/authHeeders'
 
 const ProductDetailScreen = () => {
-
+    const [message, setMessage] = useState('')
+    const [isOk, setIsOk ] = useState(false)
+  
     const { product_id } = useParams()
-    console.log(product_id)
     const {
         product_detail_state,
         product_detail_loading_state,
         product_detail_error_state
     } = useProductDetail(product_id)
+
+      const addToCart = async () => {
+        const resposHTTP = await fetch(`${import.meta.env.VITE_API_URL}/api/cart/add`, {
+          method: 'POST',
+          headers: getAuthHeaders(),
+          credentials: 'include',
+          body: JSON.stringify({"seller_id": product_detail_state.seller_id })
+        })
+        const data = await resposHTTP.json();
+        setMessage(data.response.message)
+        setIsOk(data.response.ok)
+        setMessage(data.response.message)
+      }
+
+      useEffect(() => {
+        if (message) {
+            const timer = setTimeout(() => {
+                setMessage("")
+            }, 1000);
+
+            return () => clearTimeout(timer)
+        }
+    }, [message]);
 
     return (
         <>
@@ -49,10 +73,17 @@ const ProductDetailScreen = () => {
                 <p className="text-2xl font-semibold text-green-500">
                   ${product_detail_state.price}
                 </p>
-                <button className="px-6 py-3 bg-green-500 text-black font-bold rounded-md hover:bg-green-600 transition duration-300">
-                  Buy Now
+                <button onClick={addToCart} className="px-6 py-3 bg-green-500 text-black font-bold rounded-md hover:bg-green-600 transition duration-300">
+                  Add to cart
                 </button>
               </div>
+                <p
+                    id="message"
+                    className={`text-sm h-6 text-center ${isOk ?  'text-green-500' : 'text-red-500'
+                        }`}
+                >
+                    {message || '\u00A0'}
+                </p>
             </div>
           )}
         </div>

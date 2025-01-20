@@ -2,32 +2,27 @@ import { useState } from "react"
 import getAuthHeaders from "../utils/authHeeders"
 
 
-const useProductDelete = (product_id) => {
-    // const [productErrorStateDelete, setproductErrorStateDelete] = useState("")
-    console.log("Id global". product_id) // SyntheticBaseEvent {_reactName: 'onClick', _targetInst: null, type: 'click', nativeEvent: PointerEvent, target: button, …
-    const deleteProduct = async (product_id) => {
-        console.log("Id local ",product_id)
-        let id_string = String(product_id)
-        console.log("Type of product id", id_string)
-
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products/${id_string}`, {
+const useProductDelete = () => {
+    const [ detail, setDetail ] = useState([])
+    const deleteProduct = async (product_id, endpoint) => {
+        console.log(`${import.meta.env.VITE_API_URL}/api/${endpoint}/${product_id}`) // http://localhost:3000/api/undefined/undefined
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/${endpoint}/${product_id}`, {
             method: 'DELETE',
+            credentials: 'include',
             headers: getAuthHeaders()
         })
         const data = await response.json()
-        console.log(data)
+        console.log("The response: ",data)
+     
+        console.log("The data response ", data.response.payload.detail)
+        setDetail(data.response.payload.detail)
     }
 
-    return deleteProduct
-        // productErrorStateDelete
+    return {
+        deleteProduct,
+        detail,
+    }
     
 }
 
 export default useProductDelete
-// const deleteProduct = useProductDelete();
-
-// ...
-
-// ...
-
-{/* <button onClick=>Click here to delete</button> */}

@@ -3,7 +3,7 @@ import fogPicture from '/public/bogCartoon.webp'
 import { AuthContext } from '../Context/AuthContenxt'
 
 
-const Layout = () => {
+const Layout = ({title, paragraph}) => {
   const { isLoged } = useContext(AuthContext)
   const [animate, setAnimate] = useState(false);
 
@@ -43,7 +43,7 @@ const Layout = () => {
               yChannelSelector="G" />
           </filter>
         </svg>
-        <h1 className="text-4xl font-bold hover:pointer" onClick={handleClick} style={{ filter: 'url(#water-effect)', cursor: 'pointer' }}  > Welcome to Froggy Market</h1>
+        <h1 className="text-4xl font-bold hover:pointer" onClick={handleClick} style={{ filter: 'url(#water-effect)', cursor: 'pointer' }}  > {title}</h1>
 
         <svg width="0" height="0" >
           <filter id="shake-effect" >
@@ -55,8 +55,8 @@ const Layout = () => {
         </svg>
         {
           isLoged
-            ? <p className="text-lg mt-2" style={{ filter: 'url(#shake-effect)' }} >We have all kinds of bogs, frogs and bugs</p>
-            : <p className="text-lg mt-2 text-red-500">Please login to see our products</p>
+            ? <p className="text-lg mt-2" style={{ filter: 'url(#shake-effect)' }} >{paragraph}</p>
+            : <p className="text-lg mt-2 text-red-500">Please login to see our products </p>
         }
 
       </div>

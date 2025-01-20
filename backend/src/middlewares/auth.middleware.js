@@ -5,7 +5,7 @@ const authMiddleware = (allowed_roles) => {
     return ( req, res, next) => {
     try{
         const auth_header = req.headers['authorization']
-
+        console.log(auth_header)
         if(!auth_header){
             return res.json({message: "No token"})
         }
@@ -16,15 +16,18 @@ const authMiddleware = (allowed_roles) => {
             return res.json({message: "Malformed token"})
         }
     
-        const user_session_payload_decoded = jwt.verify(access_token, process.env.JWT_SECRET)
-        
-        if (!allowed_roles.includes(user_session_payload_decoded.role) || !user_session_payload_decoded){
-            return res.status(403).json({message: "You're not allowed", })
+        try {
+            const user_session_payload_decoded = jwt.verify(access_token, process.env.JWT_SECRET)            
+            if (!allowed_roles.includes(user_session_payload_decoded.role) || !user_session_payload_decoded){
+                return res.status(403).json({message: "You're not allowed", })
+            }
+            
+            req.user = user_session_payload_decoded
+            
+            next()
+        } catch (err){
+            return res.send({message:  err.message})
         }
-
-        req.user = user_session_payload_decoded
-    
-        next()
 
     } catch(err) {
         console.log(err)

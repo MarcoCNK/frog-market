@@ -122,6 +122,7 @@ export const getProductByIdController = async (req, res, next) => {
 }
 
 export const getAllProductController = async (req, res, next) => {
+
     try {
         const ProductSearched = await ProductRepository.getAllProducts()
         if (isEmptyObject(ProductSearched)) {
@@ -140,4 +141,11 @@ export const getAllProductController = async (req, res, next) => {
         console.error(error);
         next(error)
     }
+}
+
+export const preflightCOntroller = async (req, res) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:5173')
+    res.header('Access-Control-Allow-Methods', 'GET, PUT, DELETE, OPTIONS, POST')
+
+    res.send(200)
 }

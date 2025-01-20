@@ -3,29 +3,29 @@ import useProducts from '../Hooks/useProducts'
 import { Link } from 'react-router-dom'
 import getAuthHeaders from '../utils/authHeeders.js'
 import useProductDelete from '../Hooks/useProductDelete.jsx'
-import fogPicture from '/public/bogCartoon.webp'
 import { CiTrash } from "react-icons/ci";
 import NavBar from '../Components/Navbar.jsx'
 import Layout from '../Components/Layout.jsx'
 import { AuthContext } from '../Context/AuthContenxt.jsx'
+import Footer from '../Components/Footer.jsx'
 
 const HomePage = () => {
-	const { products, loader, productErrorState } = useProducts()
-	const { productErrorStateDelete } = useProductDelete()
+	const { products, loader, productErrorState } = useProducts("products")
+	const { deleteProduct } = useProductDelete()
 
 	return (
  		<div className='bg-black'>
-			<NavBar></NavBar>
+			<NavBar ></NavBar>
 			
-			<Layout></Layout>
+			<Layout paragraph={"We have all kinds of bogs, frogs and bugs"} title={"We have all kinds of bogs, frogs and bugs"}></Layout>
 
-			<Link to="/home/create-product">Create a product</Link>
+			{/* <Link to="/home/create-product">Create a product</Link> */}
 			{loader
 				? <p >Loading...</p>
 				: <ProductsList products={products} />
 			}
+		<Footer/>
 		</div>
-
 	)
 }
 
@@ -68,8 +68,9 @@ export const ProductsList = ({ products }) => {
 							{
 								isAdmin &&
 							<div className="flex space-x-4">
+								{console.log("THE PRODUCT SELLER ID",product.seller_id)} 
 								<button
-									onClick={() => useProductDelete(product.seller_id)}
+									onClick={() => deleteProduct(product.seller_id, "products")}
 									className="text-red-500 hover:text-red-600 transition-colors"
 									title="Delete Product"
 								>

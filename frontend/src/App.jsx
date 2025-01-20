@@ -1,5 +1,5 @@
 import React from 'react'
-import { LoginPage, RegisterPage, HomePage, ForgotPasswordPage, RecoveryPasswordPage, ProductDetailScreen, ProductCreatePage, CartPage, DefaultPage, MyProfile } from './pages'
+import { LoginPage, RegisterPage, HomePage, ForgotPasswordPage, RecoveryPasswordPage, ProductDetailScreen, ProductCreatePage, CartPage, DefaultPage, Logout, NotFoundPage } from './pages'
 import { Route, Routes } from 'react-router-dom'
 import ProtectedRoute from './Components/ProtectedRoute'
 
@@ -12,11 +12,11 @@ return (
                 <Route path='/home/product/:product_id' element={<ProductDetailScreen />} />
                 <Route path="/home/create-product" element={<ProductCreatePage />} />
                 <Route path='/supercart' element={<CartPage />} />
-                <Route path="/profile" element={<MyProfile />} />
+                <Route path='/logout' element={<Logout />} />
             </Route >
 
-            <Route path="/*" element={<DefaultPage />} />
-            <Route path="/login-please" element={<DefaultPage />} />
+            <Route path="/*" element={<NotFoundPage />} />
+            <Route path="/" element={<DefaultPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />

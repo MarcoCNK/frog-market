@@ -7,6 +7,7 @@ import ProductDetailScreen from './ProductDetailScreen'
 import ProductCreatePage from './ProductCreatePage'
 import CartPage from './CartPage'
 import DefaultPage from './DefaultPage'
-import MyProfile from './MyProfile'
+import Logout from './Logout'
+import NotFoundPage from './NotFoundPage'
 
-export { LoginPage, RegisterPage, HomePage, ForgotPasswordPage, RecoveryPasswordPage, ProductDetailScreen, ProductCreatePage, CartPage, DefaultPage, MyProfile }
+export { LoginPage, RegisterPage, HomePage, ForgotPasswordPage, RecoveryPasswordPage, ProductDetailScreen, ProductCreatePage, CartPage, DefaultPage, Logout, NotFoundPage }

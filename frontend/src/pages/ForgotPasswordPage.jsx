@@ -38,7 +38,10 @@ const ForgotPasswordPage = () => {
 				text: "Login"
 				
 			}],
-            label_text: "Enter your email to restore password",
+            label_text: [{
+				text: "Please enter your email and password",
+				className: "block rounded text-sm font-medium text-gray-300"
+			  }],
             field_component: 'input',
             submit_text: "Send mail",
 
@@ -50,6 +53,7 @@ const ForgotPasswordPage = () => {
             },
             field_data_props: [
                 {
+				field_component: 'input',
                 type: "email",
                 name: "email",
                 id: "email",
@@ -66,6 +70,7 @@ const ForgotPasswordPage = () => {
                 action={actionForgotPassword} 
                 initial_state_form={initial_state_form} 
 				page_title="Forgot my pass"
+				isBillingFrom=""
                 >
                
            </Form>

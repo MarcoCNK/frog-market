@@ -53,13 +53,18 @@ const RecoveryPasswordPage = () => {
 
     const form_fields = [
         {
-            label_text: "Restore password",
             submit_text: "Restore",
             field_component: 'input',
             field_container_props: {
                 className: 'form__input'
             },
+            label_text: [{
+				text: "Restore password",
+				className: "block rounded text-sm font-medium text-gray-300"
+			  }],
             field_data_props: [{
+					field_component: 'input',
+
                 type: "password",
                 name: "password",
                 id: "password",

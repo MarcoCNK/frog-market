@@ -6,9 +6,7 @@ import { jwtDecode } from 'jwt-decode'
 import { AuthContext } from '../Context/AuthContenxt';
 
 export default function LoginPage() {
-	const [isOk, setIsOk] = useState(false);
 	const [message, setMessage] = useState('')
-	const [retry, setRetry] = useState(0)
 
 	const navigate = useNavigate()
 
@@ -19,6 +17,7 @@ export default function LoginPage() {
 
 	const { login } = useContext(AuthContext)
 
+	let isOk = false
 	const actionLogin = async (formState) => {
 		// send the form data to the backend
 		try {
@@ -34,9 +33,10 @@ export default function LoginPage() {
 			// Handle the response
 			const data = await responseHTTP.json();
 			const messageFromData = data.response.message;
-			console.log(messageFromData)
+			console.log(data)
 			// IsOk
-			setIsOk(data.response.ok)
+			console.log("State from the response: ",data.response.ok)
+			isOk = data.response.ok
 
 			console.log("Access token: ", data.response.payload.detail)
 
@@ -59,10 +59,7 @@ export default function LoginPage() {
 			setMessage("An error occurred. Please try again later.");
 			return {messageFromData, isOk}
 
-
-
 		}
-
 	}
 
 
@@ -77,8 +74,11 @@ export default function LoginPage() {
 				redirect: "/forgot-password",
 				text: "Forgot your password?"
 			}],
-			label_text: "Please enter your email and password",
-			field_component: 'input',
+			label_text: [{
+				text: "Please enter your email and password",
+				htmlFor: "hole",
+				className: "block rounded text-sm font-medium text-gray-300"
+			  }],
 			submit_text: "Login",
 			input_classes: {
 				className: "block",
@@ -94,6 +94,7 @@ export default function LoginPage() {
 			},
 			field_data_props: [
 				{
+					field_component: 'input',
 					type: "email",
 					name: "email",
 					id: "email",
@@ -102,10 +103,11 @@ export default function LoginPage() {
 					// value: formState.email
 				},
 				{
+					field_component: 'input',
 					type: "password",
 					name: "password",
 					id: "password",
-					placeholder: "Choose your new password",
+					placeholder: "Enter your password",
 					className: "mt-1 p-2 w-full border rounded-md border-gray-700 bg-gray-700 text-white focus:ring-blue-500 focus:border-blue-500"
 					// value: formState.password,
 					// onChange: handlechange
@@ -119,6 +121,7 @@ export default function LoginPage() {
 				action={actionLogin}
 				initial_state_form={initial_state_form}
 				page_title="LoginPage"
+				isBillingFrom={false}
 			>
 			</Form>
 
