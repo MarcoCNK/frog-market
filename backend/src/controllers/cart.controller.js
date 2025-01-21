@@ -3,6 +3,7 @@ import CartProductRepository from "../repositories/cart.repository.js"
 import ProductRepository from "../repositories/product.repository.js"
 import AppError from "../helpers/errors/app.error.js"
 import ResponseBuilder from "../helpers/response.builder.js"
+import CheckoutSessionRepository from "../repositories/checkout.repository.js"
 
 
 export const addToCartController = async (req, res, next) => {
@@ -91,20 +92,50 @@ export const getAllCartProducts = async (req, res, next) => {
 }
 
 
-export const checkoutController = (req, res, next) => {
-    // const cartId = req.cookies.cartId
-    // const productsDetail = await CartProductRepository.getAllProductsDetails(cartId)
-    // if (!productsDetail) {
-    //     return next(new AppError("There's no cookie", 404))
-    // }
-    // const response = new ResponseBuilder()
-    //     .setOk(true)
-    //     .setStatus(200)
-    //     .setMessage(`Get products`)
-    //     .setPayload({
-    //         detail: productsDetail
-    //     })
-    //     .build()
-    // return res.status(200).json({ response })
-    return res.status(200).json({ message: "Checkout" })
+export const checkoutController = async (req, res, next) => {
+    const cartId = req.cookies.cartId;
+    const form = req.body;
+
+    if (!cartId) {
+        return res.status(400).json({ message: "No cart session found" });
+    }
+
+    const checkoutId = crypto.randomBytes(16).toString("hex");
+    await CheckoutSessionRepository.createCheckoutSession(checkoutId, cartId, req.body);
+
+    const response = new ResponseBuilder()
+            .setOk(true)
+            .setStatus(200)
+            .setMessage(`Redirenct`)
+            .setPayload({
+                form
+            })
+            .build()
+        return res.set('X-Basket-Id', checkoutId).status(200).json({ response })
+};
+
+export const checkoutRouterController = async (req, res, next) =>  {
+    const { checkoutId } = req.params;
+    
+    console.log("REquest form ", checkoutId)
+
+    const session = await CheckoutSessionRepository.findCheckoutSession(checkoutId);
+    if (!session) {
+      return res.status(404).send('This page does not exist');
+    }
+    const productsDetail = await CartProductRepository.getAllProductsDetails(session.cartId)
+
+    
+  
+    const response = new ResponseBuilder()
+            .setOk(true)
+            .setStatus(200)
+            .setMessage(`The data`)
+            .setPayload({
+                session,
+                productsDetail
+            })
+            .build()
+        return res.json({ response })
 }
+

@@ -125,8 +125,6 @@ const Field = ({ field, handleChange, input_classes, state_value, isBillingFrom 
                         </div>
                     ) : (
                         <div className='mb-6' key={index} {...field.field_container_props}>
-                            {console.log(field_prop)}
-                            {console.log(field_prop)}
                             <select
                                 key={index}
                                 {...field_prop}
@@ -161,16 +159,17 @@ const Field = ({ field, handleChange, input_classes, state_value, isBillingFrom 
                     )}
                 </div>
             ))}
-             {isBillingFrom ? <p>
+             {/* {isBillingFrom ? <p>
                     {'\u00A0'}
                 </p>
-                    :
+                    : */}
             <button
                 className="rounded w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4"
                 type="submit"
             >
                 {field.submit_text}
-            </button>}
+            </button>
+            {/* } */}
         </>
     );
 };

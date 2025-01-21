@@ -1,5 +1,5 @@
 import express from 'express'
-import { addToCartController, eliminateProductCart, getAllCartProducts, checkoutController } from '../controllers/cart.controller.js'
+import { addToCartController, eliminateProductCart, getAllCartProducts, checkoutController, checkoutRouterController } from '../controllers/cart.controller.js'
 import authMiddleware from '../middlewares/auth.middleware.js'
 import cookieParser from "cookie-parser";
 import cors from 'cors'
@@ -23,5 +23,8 @@ cartRouter.options('/', cors(corsOptions))
 
 cartRouter.post('/checkout', authMiddleware(['admin', 'user']), checkoutController)
 cartRouter.options('/checkout', cors(corsOptions))
+
+cartRouter.get('/checkout-router/:checkoutId', authMiddleware(['admin', 'user']), checkoutRouterController)
+cartRouter.options('/checkout-router/:checkoutId', cors(corsOptions))
 
 export default cartRouter

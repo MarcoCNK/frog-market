@@ -16,7 +16,6 @@ const useProducts = (endPoint) => {
         const data = await response.json()
 
 
-        console.log("Is endpoint cart: ?", endPoint == "cart")
         if (endPoint == "products" ){
           setProducts(data.payload.ProductSearched)
           setLoader(false)

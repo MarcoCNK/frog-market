@@ -2,72 +2,9 @@ import React, { useState } from 'react';
 import useForm from '../Hooks/useForm';
 import Form from './Form';
 
-const BillingForm = () => {
-  const [cardNumber, setCardNumber] = useState('');
-  const [expiryMonth, setExpiryMonth] = useState('01');
-  const [expiryYear, setExpiryYear] = useState('27');
-  const [cvv, setCvv] = useState('');
-  const [country, setCountry] = useState('Argentina');
-  const [taxId, setTaxId] = useState('');
-  const [address, setAddress] = useState('Liniers');
-  const [address2, setAddress2] = useState('854');
-  const [city, setCity] = useState('Buenos Aires');
-  const [state, setState] = useState('Buenos Aires');
-  const [postalCode, setPostalCode] = useState('B1752');
+const BillingForm = ({initialForm, handleCheckout}) => {
 
-  const actionLogin = async (formState) => {
-    // send the form data to the backend
-    try {
-      // Send the form data to the backend
-      const responseHTTP = await fetch(`${import.meta.env.VITE_API_URL}/api/cart/checkout`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formState)
-      });
-
-      // Handle the response
-      const data = await responseHTTP.json();
-      const messageFromData = data.response.message;
-      console.log(data)
-      // IsOk
-      console.log("State from the response: ", data.response.ok)
-      isOk = data.response.ok
-
-      console.log("Access token: ", data.response.payload.detail)
-
-      setMessage(messageFromData)
-
-      if (messageFromData == "Logged successfully!") {
-        console.log("logged successfully")
-        console.log("Access token: ", data.response.payload.detail)
-        setTimeout(() => {
-          login(data.response.payload.detail)
-        }, 2000);
-        console.log("Is okey from the action", isOk)
-        return { messageFromData, isOk }
-
-      }
-      return { messageFromData, isOk }
-
-    } catch (error) {
-      console.log(error)
-      setMessage("An error occurred. Please try again later.");
-      return { messageFromData, isOk }
-
-    }
-  }
-
-  const initialForm = ({
-    cardNumber: '',
-    expiryMonth: '',
-    expiryYear: '',
-    cvv: '',
-    country: '',
-    address: '',
-  });
-
+    const [message, setMessage] = useState('')
 
   const form_fields = [
     {
@@ -111,7 +48,7 @@ const BillingForm = () => {
       }
       ],
 
-      submit_text: "Login",
+      submit_text: "Checkout",
       input_classes: {
         className: "block",
         className: "text-sm",
@@ -207,7 +144,7 @@ const BillingForm = () => {
       </div>
       <Form
         form_fields={form_fields}
-        action={actionLogin}
+        action={handleCheckout}
         initial_state_form={initialForm}
         page_title="Data for billing"
 		    isBillingFrom="ok"

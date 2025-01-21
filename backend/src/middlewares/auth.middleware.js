@@ -12,6 +12,8 @@ const authMiddleware = (allowed_roles) => {
         
         const access_token = auth_header.split(" ")[1]
     
+        console.log("The bearer token: ",access_token)
+        console.log("The secret singature ",process.env.JWT_SECRET)
         if (!access_token){
             return res.json({message: "Malformed token"})
         }
@@ -26,6 +28,7 @@ const authMiddleware = (allowed_roles) => {
             
             next()
         } catch (err){
+            console.log(err)
             return res.send({message:  err.message})
         }
 

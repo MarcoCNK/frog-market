@@ -10,7 +10,6 @@ const HandleRequestForm = async (responseHTTP) => {
         // Handle the response
       const data = await responseHTTP.json();
       const messageFromData = data.response.message;
-      console.log("From the function: ",messageFromData)
       // IsOk
       setIsOk(data.response.ok)
 
@@ -19,7 +18,6 @@ const HandleRequestForm = async (responseHTTP) => {
         : messageFromData)
 
       if (messageFromData == "Logged successfully!") {
-        console.log("logged successfully")
         setTimeout(() => {
           navigate('/home');
         }, 2000);

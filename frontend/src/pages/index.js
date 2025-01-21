@@ -9,5 +9,6 @@ import CartPage from './CartPage'
 import DefaultPage from './DefaultPage'
 import Logout from './Logout'
 import NotFoundPage from './NotFoundPage'
+import CheckoutPage from './CheckoutPage'
 
-export { LoginPage, RegisterPage, HomePage, ForgotPasswordPage, RecoveryPasswordPage, ProductDetailScreen, ProductCreatePage, CartPage, DefaultPage, Logout, NotFoundPage }
+export { LoginPage, RegisterPage, HomePage, ForgotPasswordPage, RecoveryPasswordPage, ProductDetailScreen, ProductCreatePage, CartPage, DefaultPage, Logout, NotFoundPage, CheckoutPage }
