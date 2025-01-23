@@ -44,7 +44,7 @@ const ProductDetailScreen = () => {
         <NavBar></NavBar>
 			
         <div className="min-h-screen bg-black text-white flex items-center justify-center"
-        style={{ backgroundImage: "url('/public/bogCartoon.webp')" }}>
+        style={{ backgroundImage: "url('/bogCartoon.webp')" }}>
           {product_detail_loading_state ? (
             <p className="text-lg text-center">Loading...</p>
           ) : (
@@ -57,7 +57,7 @@ const ProductDetailScreen = () => {
               {/* Product Image */}
               <div className="w-full flex justify-center mb-6">
                 <img
-                  src={product_detail_state.image}
+                  src={product_detail_state.image_base64}
                   alt={product_detail_state.title}
                   className="rounded-lg shadow-md max-h-80 object-contain"
                 />

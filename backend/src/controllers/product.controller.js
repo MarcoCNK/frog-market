@@ -24,9 +24,8 @@ export const createProductController = async (req, res, next) => {
                 new_object
             })
             .build()
-        return res.json({ response })
+        return res.status(201).json({ response })
     } catch (error) {
-        console.error(error);
         next(error)
     }
 }

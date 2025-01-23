@@ -3,8 +3,10 @@ import Product from "../models/product.models.js"
 
 class ProductRepository {
     static async createProduct( new_product_data ) {
+        console.log( new_product_data)
         const new_product = new Product(new_product_data)
-        return await new_product.save()
+         await new_product.save()
+         return
     }
 
     static async updateProduct (product_id, update_data) {

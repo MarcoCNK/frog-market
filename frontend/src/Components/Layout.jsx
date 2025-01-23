@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import fogPicture from '/public/bogCartoon.webp'
+import fogPicture from '/bogCartoon.webp'
 import { AuthContext } from '../Context/AuthContenxt'
 
 

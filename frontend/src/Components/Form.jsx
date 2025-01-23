@@ -9,7 +9,7 @@ let isOkStatus = false
 const Form = ({ action, children, form_fields, initial_state_form, page_title, links, isBillingFrom }) => {
     const [message, setMessage] = useState('')
     const [isOk, setIsOk] = useState(false);
-    const { formState, handleChange } = useForm(initial_state_form)
+    const { formState, handleChange, handleChangeImage } = useForm(initial_state_form)
     const { isLoged } = useContext(AuthContext)
 
     const handleSumbit = async (e) => {
@@ -29,7 +29,7 @@ const Form = ({ action, children, form_fields, initial_state_form, page_title, l
                     <div className="flex items-start justify-start w-full py-12">
                         <Link className="flex items-center max-w-screen-lg mx-auto px-4" to={isLoged ? '/home' : '/login'}>
                             <img
-                                src="/public/frogLogo.png"
+                                src="/frogLogo.png"
                                 alt="Logo"
                                 className="w-18 h-14 rounded-full mr-4"
                             />
@@ -43,7 +43,7 @@ const Form = ({ action, children, form_fields, initial_state_form, page_title, l
             <div className="w-96 bg-gray-800 rounded-lg p-10 shadow-lg">
                 <h1 className='text-3xl font-bold text-white mb-8' >{page_title}</h1>
                 <form className='mb-6 space-y-4' onSubmit={handleSumbit}>
-                    <FieldList isBillingFrom={isBillingFrom} form_fields={form_fields} handleChange={handleChange} formState={formState} />
+                    <FieldList isBillingFrom={isBillingFrom} form_fields={form_fields} handleChangeImage={handleChangeImage} handleChange={handleChange} formState={formState} />
                     {children}
                 </form>
                 <div className='flex flex-col justify-between mb-6'>
@@ -65,7 +65,7 @@ const Form = ({ action, children, form_fields, initial_state_form, page_title, l
     )
 }
 
-const FieldList = ({ form_fields, handleChange, formState, isBillingFrom }) => {
+const FieldList = ({ form_fields, handleChange, formState, isBillingFrom, handleChangeImage }) => {
     return (
         <>
             {form_fields.map((field, index) => {
@@ -80,8 +80,16 @@ const FieldList = ({ form_fields, handleChange, formState, isBillingFrom }) => {
                             field={field}
                             input_classes={field.input_classes}
                             handleChange={handleChange}
+                            handleChangeImage={handleChangeImage}
                             state_value={formState[field.field_data_props[index].name]}
                         />
+                            {formState.image_base64 && <img src={formState.image_base64} alt='' /> }
+                            <button
+                className="rounded w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4"
+                type="submit"
+            >
+                {field.submit_text}
+            </button>
                     </>
                 )
 
@@ -92,7 +100,7 @@ const FieldList = ({ form_fields, handleChange, formState, isBillingFrom }) => {
     )
 }
 
-const Field = ({ field, handleChange, input_classes, state_value, isBillingFrom }) => {
+const Field = ({ field, handleChange, input_classes, handleChangeImage, state_value, isBillingFrom, image_base64 }) => {
     return (
         <>
             {field.field_data_props.map((field_prop, index) => (
@@ -111,10 +119,12 @@ const Field = ({ field, handleChange, input_classes, state_value, isBillingFrom 
 
                     {field.field_data_props[index].field_component === 'input' ? (
                         <div className='mb-6' key={index} {...field.field_container_props}>
+                            {console.log("THis is the state ", state_value[0])}
                             <input
                                 key={index}
                                 {...field_prop}
-                                onChange={handleChange}
+                                // onChange={handleChange}
+                                onChange={field.field_data_props[index].name === 'image_base64' ? (e) => handleChangeImage(e, 'image_base64') : handleChange}
                                 // value={state_value[field_prop.name]}
                                 type={field_prop.type}
                                 id={field_prop.id}
@@ -163,12 +173,7 @@ const Field = ({ field, handleChange, input_classes, state_value, isBillingFrom 
                     {'\u00A0'}
                 </p>
                     : */}
-            <button
-                className="rounded w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4"
-                type="submit"
-            >
-                {field.submit_text}
-            </button>
+            
             {/* } */}
         </>
     );

@@ -43,7 +43,7 @@ export const ProductsList = ({ products }) => {
 						className="bg-gray-800 rounded-lg hover:shadow-lg transition-shadow flex flex-col justify-between"
 					>
 						<img
-							src={product.image}
+							src={product.image_base64}
 							alt={product.title}
 							className="w-full h-48 object-cover rounded-t-lg"
 						/>

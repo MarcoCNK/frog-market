@@ -53,7 +53,7 @@ const CartPage = () => {
             <Navbar />
             <div
                 className="min-h-screen bg-black text-white flex flex-col justify-between gap-y-6 pt-16"
-                style={{ backgroundImage: "url('/public/bogCartoon.webp')" }}
+                style={{ backgroundImage: "url('/bogCartoon.webp')" }}
             >
                 {/* Row with ItemList and BillingForm */}
                 <div className="flex items-start gap-x-10 justify-center">

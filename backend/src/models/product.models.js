@@ -27,6 +27,9 @@ const productSchema = new mongoose.Schema({
     active: {
         type: Boolean,
         default: true
+    },
+    image_base64: {
+        type: String,
     }
 },{
     timestamps: true

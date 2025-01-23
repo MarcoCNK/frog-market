@@ -2,7 +2,7 @@ import React from 'react'
 
 const Footer = () => {
     return (
-        <footer className="bg-gray-800 text-white">
+        <footer className="bg-gray-800 w-full text-white">
             <div className="flex flex-col md:flex-row justify-between items-center px-6 py-8 md:py-16">
                 <div className="mb-6 md:mb-0">
                     <h2 className="text-lg font-bold mb-4">We are not responsibile if you:</h2>
@@ -24,7 +24,7 @@ const Footer = () => {
 
                 <div>
                     <img
-                        src="/public/frogLogo.png"
+                        src="/frogLogo.png"
                         alt="Froggy Market Logo"
                         className="w-32 h-32 object-contain"
                     />

@@ -33,29 +33,22 @@ export default function LoginPage() {
 			// Handle the response
 			const data = await responseHTTP.json();
 			const messageFromData = data.response.message;
-			console.log(data)
 			// IsOk
-			console.log("State from the response: ",data.response.ok)
 			isOk = data.response.ok
 
-			console.log("Access token: ", data.response.payload.detail)
 
 			setMessage(messageFromData)
 
 			if (messageFromData == "Logged successfully!") {
-				console.log("logged successfully")
-				console.log("Access token: ", data.response.payload.detail)
 				setTimeout(() => {
 					login(data.response.payload.detail)
 				}, 2000);
-				console.log("Is okey from the action",isOk)
 			return {messageFromData, isOk}
 
 			}
 			return {messageFromData, isOk}
 
 		} catch (error) {
-			console.log(error)
 			setMessage("An error occurred. Please try again later.");
 			return {messageFromData, isOk}
 

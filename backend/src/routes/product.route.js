@@ -7,11 +7,11 @@ import corsOptions from '../helpers/utils/corsOptions.js'
 const productRouter = express.Router()
 
 productRouter.get('/', authMiddleware(['admin','user']), getAllProductController)
-productRouter.post('/', authMiddleware(['admin']), createProductController)
+productRouter.post('/', authMiddleware(['admin', 'user']), createProductController)
 productRouter.options('/', cors(corsOptions))
 
 productRouter.get('/:id',  authMiddleware(['admin','user']), getProductByIdController)
-productRouter.delete('/:id', authMiddleware(['admin']), deleteProductController)
+productRouter.delete('/:id', authMiddleware(['admin', 'user']), deleteProductController)
 productRouter.put('/:id',  authMiddleware(['admin']), updateProductController)
 productRouter.options('/:id', cors(corsOptions))
 

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FaPhone, FaUser, FaShoppingCart } from 'react-icons/fa'
 import { useContext, useEffect,  useState } from "react"
 import { IoIosLogOut, IoIosArrowDropdownCircle, IoIosArrowDropup } from "react-icons/io"
-import frogLogo from "/public/frogLogo.png"
+import frogLogo from "/frogLogo.png"
 import { AuthContext } from "../Context/AuthContenxt"
 
 

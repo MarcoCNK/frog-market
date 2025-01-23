@@ -49,7 +49,7 @@ export const registerController = async (req, res) => {
             expiresIn: '1d'
         })
 
-        const redirectURL = `http://localhost:${process.env.PORT}/api/auth/verify-email/` + validationToken
+        const redirectURL = `${process.env.URL_FRONT}/api/auth/verify-email/` + validationToken
 
         // SEND MAIL
         const mailOptions = {
@@ -132,7 +132,6 @@ export const verifyEmailController = async (req, res) => {
 
 export const loginController = async (req, res) => {
     try {
-
         // VALIDATIONS
         const loginSchema = Joi.object({
             email: Joi.string().email().required(),

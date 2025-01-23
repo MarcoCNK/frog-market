@@ -9,7 +9,11 @@ import errorHandlerMiddleware from './middlewares/error.middleware.js'
 import ProductRepository from './repositories/product.repository.js'
 import cartRouter from './routes/cart.route.js'
 import corsOptions from './helpers/utils/corsOptions.js'
+import Product from './models/product.models.js'
+import createProducts from './helpers/scripts/seedMongod.js'
 // import userRouter from './routes/users.route.js'
+
+
 
 const port = 3000
 const app = express()
@@ -19,7 +23,7 @@ app.use(cors(corsOptions))
 app.disable('x-powered-by')
 app.disable('If-None-Match')
 
-app.use(express.json())
+app.use(express.json({limit: '3mb' }))
 app.use(express.urlencoded({ extended: true }))
 
 app.use('/api/status', statusRouter)
@@ -45,15 +49,6 @@ app.listen(port, () => {
     console.log(`Example app listening on local host  http://localhost:${port}`)
 })
 
-// ProductRepository.createProduct({
-//     title: "Test",
-//     price: 100,
-//     stock: 10,
-//     description: "Test",
-//     category: "Test",
-//     seller_id: 1,
-//     image_base64: "Test"   
-// })
 
 // ProductRepository.getAllProducts({
 

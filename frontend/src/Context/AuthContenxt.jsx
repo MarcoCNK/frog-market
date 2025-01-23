@@ -6,12 +6,15 @@ export const AuthContext = createContext()
 
 
 export const AuthProvider = ({ children }) => { 
-    let name = 'hola'
+
+
+    
+    
 
     const token_string = sessionStorage.getItem('token')
 
     const [isLoged, setIsLoged] = useState(Boolean(token_string))
-    
+
     useEffect(() => {
         Boolean(token_string) && setIsLoged(true)
     }, [])
@@ -20,7 +23,7 @@ export const AuthProvider = ({ children }) => {
     const login = (authToken) => { 
         sessionStorage.setItem('token', authToken)
         setIsLoged(true)
-        navigate('/login')
+        navigate('/home')
         
     }
     
@@ -30,6 +33,7 @@ export const AuthProvider = ({ children }) => {
         navigate('/login')
     }
     
+
     const [isAdmin, setIsAdmin] = useState(false)
     if (token_string){
         const userObject = jwtDecode(token_string)
@@ -39,8 +43,9 @@ export const AuthProvider = ({ children }) => {
             }, [])
             
         }
-
+        
     }  
+    
     return (
         <AuthContext.Provider value={
                 {
