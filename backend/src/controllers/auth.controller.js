@@ -253,7 +253,7 @@ export const forgotPasswordController = async (req, res) => {
                 expiresIn: '1d'
             })
         console.log("The reset token is: ", reset_token)
-        const redirectURL = `http://localhost:5173/auth/recovery-password/` + reset_token
+        const redirectURL = `${URL_FRONT}/auth/recovery-password/` + reset_token
     
     
         const mailOptions = {
